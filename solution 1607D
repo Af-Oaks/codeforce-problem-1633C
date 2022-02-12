@@ -1,0 +1,130 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+void merge(int varlen,int *m,int stat,int mids,int ends,char *ord);
+void mergesort(int varlen,int *m,int stat,int ends,char *ord);
+
+int main (void)
+{
+int num_cases,len_arr,temp_numb;
+int *ptr_numb,*arr_answ;
+char *ptr_color;
+
+scanf("%d",&num_cases);
+arr_answ = malloc ((num_cases)*sizeof(int));
+
+for(int x =0;x<num_cases; x++)
+{
+        int value_red=0,value_blue=0,num_red=0,num_blue=0,cond_blue=0,cond_red=0;
+
+
+        scanf("%d",&len_arr);
+        ptr_numb = malloc ((len_arr)*sizeof(int));
+        ptr_color = malloc ((len_arr+1)*sizeof(char));
+        int vr_rep_red=len_arr+1,vr_rep_blue=0,vr_num_rep_red=1,vr_num_rep_blue=1,check_rep_red=1,check_rep_blue = 1;
+        for(int z = 0;z<len_arr;z++)
+            scanf("%d",&ptr_numb[z]);
+
+        scanf("%s",ptr_color);
+        mergesort(len_arr,ptr_numb,0,len_arr,ptr_color);
+
+
+
+
+int carry_numb = 1,righ_ans=1;
+
+    for(int t =0;t<len_arr;t++)
+        {
+
+            if( 'B' == ptr_color[t])
+            {
+                if(ptr_numb[t] >= carry_numb)
+                {
+                    carry_numb++;
+                }
+                else
+                {
+                    righ_ans=0;
+                    break;
+                }
+            }
+        }
+                for(int t =0;t<len_arr;t++)
+                {
+
+                    if( 'R' == ptr_color[t])
+                    {
+                        if(ptr_numb[t] <= carry_numb)
+                        {
+                            carry_numb++;
+                        }
+                        else
+                        {
+                            righ_ans=0;
+                            break;
+                        }
+                    }
+                }
+                if(righ_ans == 1)
+                    arr_answ[x] = 1;
+
+                else
+                    arr_answ[x] = 0;
+}
+for(int v=0;v<num_cases;v++)
+{
+    if(arr_answ[v] == 1)
+        printf("YES\n");
+
+    if(arr_answ[v] == 0)
+        printf("NO\n");
+}
+}
+void merge(int varlen,int *m,int stat,int mids,int ends,char *ord)
+{
+    int *w;char *z;int k =0;int i=stat;int j=mids;
+    w = malloc((ends-stat)*sizeof(int));
+    z = malloc((ends-stat)*sizeof(char));
+
+    while( i<mids && j<ends )
+    {
+        if(m[i] <= m[j])
+        {
+            z[k] = ord[i];
+            w[k++] = m[i++];
+        }
+        else
+        {
+            z[k] = ord[j];
+            w[k++] = m[j++];
+        }
+    }
+    while (i<mids)
+    {
+        z[k] = ord[i];
+        w[k++] = m[i++];
+    }
+    while (j<ends)
+    {
+        z[k] = ord[j];
+        w[k++] = m[j++];
+    }
+    for(i = stat; i< ends;++i)
+    {
+        m[i] = w[i-stat];
+        ord[i] = z[i-stat];
+    }
+free(w);
+free(z);
+}
+
+void mergesort(int varlen,int *m,int stat,int ends,char *ord)
+{
+    if(stat < ends - 1)
+    {
+		int mids = (stat + ends) / 2;
+		mergesort(varlen,m, stat, mids,ord);
+		mergesort(varlen,m, mids, ends,ord);
+		merge(varlen,m, stat, mids, ends,ord);
+	}
+}
