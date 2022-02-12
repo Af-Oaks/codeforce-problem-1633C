@@ -1,0 +1,59 @@
+#include <stdio.h>
+#include <math.h>
+
+int main()
+{
+
+int num_cases;
+double hp_player,dmg_player,hp_mob,dmg_mob,n_coins,up_dmg,up_hp;
+scanf("%d",&num_cases);
+
+for(int x =0;x<num_cases;x++)
+{
+int win_cond=0;
+scanf("%lf",&hp_player);
+scanf("%lf",&dmg_player);
+
+scanf("%lf",&hp_mob);
+scanf("%lf",&dmg_mob);
+
+scanf("%lf",&n_coins);
+scanf("%lf",&up_dmg);
+scanf("%lf",&up_hp);
+
+double num_atk_player,num_tank_player;
+
+for(int posb =0;posb<=n_coins;posb++)
+{
+long long int switcher =0;
+double receveir =0.0;
+num_atk_player =(double)hp_mob/(double)(dmg_player +up_dmg*(n_coins -posb));
+num_tank_player =(double)(hp_player+ up_hp*(posb))/(double)dmg_mob;
+
+switcher = (long long int)num_tank_player;
+receveir = (double)switcher;
+if(num_tank_player - receveir != 0 )
+	num_tank_player = (long long int)num_tank_player+1;
+
+switcher = ( long long int)num_atk_player;
+receveir = (double)switcher;
+if(num_atk_player - receveir != 0 )
+	num_atk_player = (long long int)num_atk_player +1;
+
+if(num_atk_player <= num_tank_player)
+{
+	printf("YES\n");
+	win_cond =1;
+	break;
+}
+
+}
+if(win_cond ==0)
+{
+	printf("NO\n");
+}
+
+
+}
+
+}
