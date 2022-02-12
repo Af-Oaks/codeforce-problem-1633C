@@ -1,0 +1,40 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+int main(void)
+{
+int num_quest,len_sea,num_anw=0,carryx = 0,carryz;
+char keyb_type[27];
+char to_search[50];
+scanf("%d", &num_quest);
+
+for (int ar =0;ar <num_quest;ar++)
+{
+
+scanf("%s",&keyb_type);
+scanf("%s",&to_search);
+len_sea = strlen(to_search);
+char *pos_ptr = strchr(keyb_type, to_search[0]);
+int posit = pos_ptr - keyb_type;
+    for(int xx = 1; xx< len_sea ; xx++)
+    {
+        for(int z = 0 ; z< 26; z++)
+        {
+
+
+            if(to_search[xx] == keyb_type[z])
+            {
+
+                carryx = abs(posit - z)  ;
+                num_anw += carryx;
+                posit = z;
+
+
+            }
+        }
+    }
+printf("%d \n",num_anw);
+num_anw = 0;
+}
+}
