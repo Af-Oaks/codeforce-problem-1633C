@@ -1,0 +1,65 @@
+#include <stdio.h>
+
+
+int main(void)
+{
+int num_quest,res_jump,start_pos;
+long long int position,n_jumps,final_pos;
+scanf("%d",&num_quest);
+
+for(int x =0;x < num_quest; x++)
+{
+
+    scanf("%lld",&position);
+    scanf("%lld",&n_jumps);
+
+    res_jump = n_jumps%4;
+    start_pos = position%2;
+
+    n_jumps= n_jumps - res_jump;
+    if(start_pos ==0)
+    {
+       if(res_jump ==0)
+          {
+              final_pos = position;
+          }
+       if(res_jump ==1)
+          {
+              final_pos = position -(n_jumps+1);
+          }
+       if(res_jump ==2)
+          {
+              final_pos = position +1;
+          }
+       if(res_jump ==3)
+          {
+              final_pos = (position+1)+ (n_jumps+3);
+          }
+    }
+
+    else
+    {
+       if(res_jump ==0)
+          {
+              final_pos = position;
+          }
+       if(res_jump ==1)
+          {
+              final_pos = position +(n_jumps+1);
+          }
+
+       if(res_jump ==2)
+          {
+              final_pos = position -1;
+          }
+
+       if(res_jump ==3)
+          {
+              final_pos = (position-1) -(n_jumps+3);
+          }
+    }
+printf("%lld \n",final_pos);
+}
+
+
+}
