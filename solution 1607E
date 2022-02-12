@@ -1,0 +1,108 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+void verify_max_low(char *moves,int len_moves,int *answ_x,int *answ_y,int lenBo_linha_Y,int lenBo_coluna_X);
+
+int main(void)
+{
+    int *answ_x,*answ_y,real_x=1,real_y=1;
+    answ_x=&real_x, answ_y=&real_y;
+
+    int var_len,lenBo_linha_Y,lenBo_coluna_X,len_string;
+
+    char *moves;
+    scanf("%d",&var_len);
+
+    for(int z =0;z<var_len;z++)
+    {
+
+        moves = malloc ((1000000)*sizeof(char));
+        *answ_x=1;*answ_y=1;
+
+        scanf("%d",&lenBo_linha_Y);
+        scanf("%d",&lenBo_coluna_X);
+        scanf("%s",moves);
+
+        len_string =strlen(moves);
+        verify_max_low(moves,len_string,answ_x,answ_y,lenBo_linha_Y,lenBo_coluna_X);
+
+        //printf("max_right=%d,low_left=%d,max_up=%d,low_down=%d\n",*max_right,*low_left,*max_up,*low_down);
+        printf("%d %d\n",*answ_x,*answ_y);
+
+        free(moves);
+    }
+
+
+
+
+
+}
+void verify_max_low(char *moves,int len_moves,int *answ_x,int *answ_y,int lenBo_linha_Y,int lenBo_coluna_X)
+{
+
+    int carry_x=0,carry_y=0;
+    int low_left=0,low_down=0,max_right=0,max_up=0;
+    int limit_y= lenBo_linha_Y,limit_x=lenBo_coluna_X;
+
+    for(int x =0;x<len_moves;x++)
+    {
+      switch(moves[x])
+        {
+        case 'U':
+            {
+                carry_y++;
+                if(carry_y>max_up)
+                {
+                    max_up= max_up +1;
+                    if(carry_y+1<=lenBo_linha_Y)
+                        if(*answ_x<limit_y)
+                            {
+                                *answ_x= *answ_x+1;
+                            }
+                }
+
+                break;
+            }
+        case 'D':
+            {
+                carry_y--;
+                if(carry_y<low_down)
+                {
+                    low_down= low_down -1;
+                    limit_y=limit_y-1;
+                }
+
+                break;
+            }
+        case 'R':
+            {
+               carry_x++;
+                if(carry_x>max_right)
+                {
+                    max_right= max_right +1;
+                    limit_x=limit_x-1;
+                }
+                break;
+            }
+        case 'L':
+            {
+                carry_x--;
+                if(carry_x<low_left)
+                {
+                    low_left= low_left-1;
+                    if(abs(carry_x)+1<=lenBo_coluna_X)
+                        if(*answ_y<limit_x)
+                            {
+                                *answ_y= *answ_y +1;
+                            }
+
+                }
+                break;
+            }
+
+        }
+    }
+
+
+}
