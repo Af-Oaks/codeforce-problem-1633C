@@ -1,0 +1,141 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+ void merge(int varlen,int *m,int stat,int mids,int ends,int *ord)
+{
+    int *w;int *z;int k =0;int i=stat;int j=mids;
+    w = malloc((ends-stat)*sizeof(int));
+    z = malloc((ends-stat)*sizeof(int));
+
+    while( i<mids && j<ends )
+    {
+        if(m[i] <= m[j])
+        {
+            z[k] = ord[i];
+            w[k++] = m[i++];
+        }
+        else
+        {
+            z[k] = ord[j];
+            w[k++] = m[j++];
+        }
+    }
+    while (i<mids)
+    {
+        z[k] = ord[i];
+        w[k++] = m[i++];
+    }
+    while (j<ends)
+    {
+        z[k] = ord[j];
+        w[k++] = m[j++];
+    }
+    for(i = stat; i< ends;++i)
+    {
+        m[i] = w[i-stat];
+        ord[i] = z[i-stat];
+    }
+free(w);
+free(z);
+}
+
+void mergesort(int varlen,int *m,int stat,int ends,int *ord)
+{
+    if(stat < ends - 1)
+    {
+		int mids = (stat + ends) / 2;
+		mergesort(varlen,m, stat, mids,ord);
+		mergesort(varlen,m, mids, ends,ord);
+		merge(varlen,m, stat, mids, ends,ord);
+	}
+}
+void search_all(int varlen,int *m,int *finds,int find_len,int *ord)
+{
+long long int resrig,reslef;
+long long int carry =0;
+resrig =0;
+reslef =0;
+for(int g = 0; g<find_len;g++)
+{
+    if(varlen >1000)
+    {
+        for(int h = 1;h<11;h++)
+            {
+                if(finds[g] <= m[h*(varlen/10)])
+                {
+                    carry = h -1;
+                    break;
+                }
+                else
+                    carry =9;
+            }
+        for(int u = carry*(varlen/10); u < varlen+1; u++)
+                {
+                    if(finds[g] == m[u])
+                    {
+                        carry = ord[u];
+                        break;
+                    }
+                }
+                    reslef += carry;
+                    resrig += varlen + 1 - carry;
+
+
+    }
+    else
+  {
+      for(int bb=0;bb<varlen;bb++)
+      {
+          if(m[bb] == finds[g])
+          {
+            reslef += ord[bb];
+            resrig += varlen + 1 - ord[bb];
+            break;
+          }
+      }
+  }
+  }
+printf("%lld %lld",reslef,resrig);
+  }
+int main(void)
+{
+int varlen,varlenQue,res_left = 0,res_right = 0,sort =1;
+int *arrnum_ptr;
+int *ord;
+scanf("%d", &varlen);
+int arrnumb[varlen],ordem[varlen];
+for(int x=0; x<varlen; x++ )
+    {
+        scanf("%d", &arrnumb[x]);
+        ordem[x]= x+1;
+    }
+
+arrnum_ptr = &arrnumb[0];
+ord = &ordem[0];
+
+scanf("%d", &varlenQue);
+int arrfind[varlenQue];
+for(int y=0; y<varlenQue; y++ )
+    {
+        arrfind[y] = y+1;
+        scanf("%d", &arrfind[y]);
+    }
+for(int k = 0; k < varlen - 1; k++)
+    {
+        if(arrnum_ptr[k + 1] != arrnum_ptr[k] + 1)
+        {
+            sort = 0;
+            break;
+        }
+    }
+if(sort == 0)
+{
+    mergesort(varlen,arrnum_ptr,0,varlen -1,ord);
+}
+search_all(varlen,arrnum_ptr,arrfind,varlenQue,ord);
+
+/*printf("\nSorted array is :");
+for(int i=0;i<varlen;i++)
+printf("%d ",arrnumb[i]);
+*/
+}
