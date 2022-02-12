@@ -1,0 +1,89 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+void mergesort(int varlen,int *m,int stat,int ends);
+void merge(int varlen,int *m,int stat,int mids,int ends);
+
+int main (void)
+{
+int num_cases,len_arr,carryMaxlow,temp_numb;
+int *arr_ptr,*arr_answ;
+
+scanf("%d",&num_cases);
+arr_answ = malloc ((num_cases)*sizeof(int));
+
+for(int x=0;x<num_cases;x++)
+{
+
+    scanf("%d",&len_arr);
+    arr_ptr = malloc (len_arr*sizeof(int));
+
+    for(int z=0;z<len_arr;z++)
+    {
+        scanf("%d", &arr_ptr[z]);
+    }
+
+    mergesort(len_arr,arr_ptr,0,len_arr);
+    carryMaxlow = arr_ptr[0];
+    temp_numb = arr_ptr[0];
+     for(int y=0;y<len_arr-1;y++)
+    {
+        arr_ptr[y+1] -= temp_numb;
+        temp_numb += arr_ptr[y+1];
+        if(carryMaxlow < arr_ptr[y+1])
+            carryMaxlow = arr_ptr[y+1];
+
+    }
+
+    arr_answ[x] = carryMaxlow;
+    free(arr_ptr);
+}
+for(int v=0;v<num_cases;v++)
+{
+    printf("%d \n",arr_answ[v]);
+}
+
+
+}
+void merge(int varlen,int *m,int stat,int mids,int ends)
+{
+    int *w;int *z;int k =0;int i=stat;int j=mids;
+    w = malloc((ends-stat)*sizeof(int));
+
+
+    while( i<mids && j<ends )
+    {
+        if(m[i] <= m[j])
+        {
+            w[k++] = m[i++];
+        }
+        else
+        {
+            w[k++] = m[j++];
+        }
+    }
+    while (i<mids)
+    {
+        w[k++] = m[i++];
+    }
+    while (j<ends)
+    {
+        w[k++] = m[j++];
+    }
+    for(i = stat; i< ends;++i)
+    {
+        m[i] = w[i-stat];
+    }
+free(w);
+}
+
+void mergesort(int varlen,int *m,int stat,int ends)
+{
+    if(stat < ends - 1)
+    {
+		int mids = (stat + ends) / 2;
+		mergesort(varlen,m, stat, mids);
+		mergesort(varlen,m, mids, ends);
+		merge(varlen,m, stat, mids, ends);
+	}
+}
