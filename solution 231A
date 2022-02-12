@@ -1,0 +1,33 @@
+#include <stdio.h>
+ 
+//def analises;
+ 
+ 
+int main(void)
+{
+    int result = 0;
+    int varlen;
+    int x;
+    int x2 = 0;
+    int y = 0;
+    scanf("%d", &varlen);
+ 
+    int arrayx[varlen];
+ 
+    for(x=0; x<varlen; x++ )
+    {
+        for(int u=0; u<3; u++ )
+        {
+            scanf("%d", &arrayx[u]);
+            if (arrayx[u] == 1)
+                y++;
+        }
+        if (y >= 2)
+            result++;
+        y=0;
+ 
+    }
+    printf("\n%d",result);
+}
+ 
+ 
